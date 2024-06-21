@@ -1,0 +1,308 @@
+{% load static %}
+{% load widget_tweaks %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Профи Скиллс</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat+Alternates:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="apple-touch-icon" sizes="72x72" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="{% static 'img/favicon-32x32.png' %}">
+    <link rel="icon" type="image/png" sizes="16x16"href="{% static 'img/favicon-16x16.png' %}">
+    <link rel="manifest" href="/site.webmanifest">
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
+</head>
+
+<body>
+    <section class="hero">
+        <section class="container">
+            <header class="mb-0">
+                <div class="container">
+                    <nav class="navbar navbar-expand-lg navbar-light">
+                        <a class="navbar-brand"  href="{% url 'profi_main:index' %}">
+                            <img src="{% static 'img/logo.png' %}" alt="Logo" class="ml-4 mr-5">
+                        </a>
+                        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
+                        <div class="collapse navbar-collapse" id="navbarNav">
+                            <ul class="navbar-nav ml-auto">
+                                    <li class="nav-item dropdown">
+                                        <a class="nav-link dropdown-toggle pl-3" style="color: black;" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            Курсы
+                                        </a>
+                                        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                                            {% for c in categories %}
+                                            <a class="dropdown-item" href="{{ c.get_absolute_url }}">{{ c.name }}</a>
+                                            {% endfor %}
+                                        </div>
+                                    </li> 
+                                <li class="nav-item pl-3 pr-3"><a style="color: black;" href="{% url 'profi_main:about' %}" class="nav-link">О нас</a></li>
+                                <li class="nav-item ml-3 pr-3"><a style="color: black;" href="{% url 'profi_main:contacts' %}" class="nav-link">Контакты</a></li>
+                                    
+                                    {% if not request.user.is_authenticated %}
+                                    <li class="nav-item pl-3 pr-3"><a style='color:#4F618D' href="{% url 'authorization:login' %}" class="nav-link">Войти</a></li>
+                                    {% endif%}
+
+                                    {% if request.user.is_authenticated %}
+                                    <li class="nav-item pl-3 pr-3"><a style='color:black' href="{% url 'authorization:profile' %}" class="nav-link">Личный кабинет</a></li>
+                                    <li class="nav-item pl-3 pr-3">
+                                        <a style='color:black' href="{% url 'cart:cart_detail' %}" class="nav-link">
+                                            <img style="width:25px; height:25px" src="{% static 'img/basket.png' %}" alt="Basket" class="mb-1">
+                                        </a>
+                                    </li>
+                                    {% endif%}
+                            </ul>
+                        </div>
+                    </nav>
+                </div>
+            </header>
+
+            <img src="{% static 'img/women1.png' %}" alt="Woman" class="image-women mb-1 mt-3">
+            <div class="text-on-image mb-4">
+                Курсы повышения квалификации и профессиональная переподготовка дистанционно<br>
+                <a class="btn btn-primary" {% for c in categories %} href="{{ c.get_absolute_url }}"
+                {% endfor %}>подобрать курс</a>
+            </div>
+        </section>
+    </section>
+
+
+    <img src="{% static 'img/kaply1.png' %}" alt="Kaply" class="image-kaply mb-1">
+
+    <section class="features text-center">
+        <img src="{% static 'img/yellow-kaply.png' %}" alt="Kaply1" class="image-kaply2 mb-1">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <img src="{% static 'img/time.png' %}" alt="" class="mb-1">
+                    <h3>Удобный график</h3>
+                    <p>Занимайтесь в удобное время, в любом месте.</p>
+                </div>
+                <div class="col-md-4">
+                    <img src="{% static 'img/pc.png' %}" alt="" class="mb-1">
+                    <h3>Без отрыва от работы</h3>
+                    <p>Учитесь без отрыва от работы и семьи.</p>
+                </div>
+                <div class="col-md-4">
+                    <img src="{% static 'img/lamp.png' %}" alt="" class="mb-1">
+                    <h3>Экономьте время</h3>
+                    <p>Не тратьте время на дорогу, учитесь дистанционно.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="courses text-center m">
+        <div class="container courses">
+            <h2 class="mb-4" style="font-weight: 700;">Наши направления и специальности</h2>
+            <div class="row courses1 mt-4">
+                {% for c in categories %}
+                    <div class="col-lg-4 col-md-6 col-sm-12 mt-5 mb-5"><a class="btn-block" href="{{ c.get_absolute_url }}">{{ c.name }}</a></div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+
+
+
+    {% if not request.user.is_authenticated %}
+    <section class="text-center mt-3 mb-5"  id="registration-form">
+        <div class="container cta mb-4">
+            <h2 class="pt-4">Растите вместе с нами</h2>
+            <h3 class="pb-2">Зарегистрируйтесь прямо сейчас!</h3>
+            <form method="post" class="form-inline flex-column" action="{% url 'register' %}">
+                {% csrf_token %}
+               
+                <div class="form-group mb-3 mx-auto">
+                    {{ register_form.email|add_class:"form-control"|attr:"style: width:320px;border: #4F618D 1px solid;"|attr:"placeholder: Ваш email" }}
+                </div>
+            
+                <div class="form-group mb-3 mx-auto">
+                    {{ register_form.phone_number|add_class:"form-control"|attr:"style: width:320px;border: #4F618D 1px solid;"|attr:"placeholder: Ваш телефон" }}
+                </div>
+            
+                <div class="form-group mb-3 mx-auto">
+                    {{ register_form.password1|add_class:"form-control"|attr:"style: width:320px;border: #4F618D 1px solid;"|attr:"placeholder: Пароль" }}
+                </div>
+            
+                <div class="form-group mb-3 mx-auto">
+                    {{ register_form.password2|add_class:"form-control"|attr:"style: width:320px;border: #4F618D 1px solid;"|attr:"placeholder: Повторите пароль" }}
+                </div>
+            
+                <div class="form-check mb-1 pl-3 " style="font-size:10px;font-weight: 500;">
+                    <input class="form-check-input" type="checkbox" value="" id="consent4" required>
+                    <label class="form-check-label" for="consent4">
+                        Согласен(-на) на обработку персональных данных
+                    </label>
+                </div>
+
+                <div class="form-check mb-2 ml-2 " style="font-size:10px;font-weight: 500;">
+                    <input class="form-check-input" type="checkbox" value="" id="consent3" required>
+                    <label class="form-check-label" for="consent3">
+                        Согласен(-на) с политикой конфиденциальности
+                    </label>
+                </div>
+            
+                <div class="form-group mx-auto mb-2">
+                    <button type="submit" class="btn btn-primary" style="width: 320px;">Зарегистрироваться</button>
+                </div>
+            </form>
+            
+            <div class="form-group mb-5 mx-auto">
+                <p class="pb-4 mb-5"  style="font-weight: 500;">Уже есть аккаунт? <a class="mb-4" style="color: #4F618D;font-weight: 500;" href="{% url 'authorization:login' %}">Авторизуйтесь</a></p>
+            </div>
+
+        </div>
+    </section>
+    {% endif %}
+
+    <section class="about-section mt-5 mb-5" style="z-index: 999;">
+        <div class="container text-center">
+            <h2 class="mb-4">Об Академии</h2>
+            <p>Образовательная деятельность Академии «Профи Скиллс» началась в 2019 году. За это время создана внушительная база учебных программ по разным специальностям. У нас есть аккредитация по информационной безопасности и охране труда.</p>
+            <p>Мы работаем как с государственными учреждениями, частными организациями, со средним и малым бизнесом, так и с физическими лицами.</p>
+            <p>Обучение проводится по программам, составленным с учетом требований к дополнительной квалификации и государственным стандартам.</p>
+            <p class="mb-5">Преподаватели Академии «Профи Скиллс» - признанные профессионалы в своих областях - обладают необходимыми методиками и опытом.</p>
+        </div>
+    </section>
+
+
+    <footer class="footer">
+    <div class="container text-center">
+                        <section class="cta2 text-center row">
+                            <div class="text-container col-lg-6 col-md-12 col-sm-12">
+                                <h2 class="mt-5 pl-lg-5" id="form_cont">Поможем решить все вопросы</h2>
+                                <p class="pl-lg-5 pt-2">Если Вы хотите больше узнать о Профи Скиллс<br> или не знаете, какую программу обучения выбрать, оставьте заявку и мы перезвоним</p>
+                            </div>
+                            <div class="form-container col-lg-6 col-md-12 col-sm-12 mt-2">
+                                <form method="POST" class="form-inline flex-column" action="{% url 'contact' %}">
+                                    {% csrf_token %}
+                                    <div class="form-group mt-5 mb-3 mt-2 mx-auto">
+                                        {{ contact_form.name }}
+                                    </div>
+                                    <div class="form-group mb-3 mx-auto">
+                                        {{ contact_form.email }}
+                                    </div>
+                                    <div class="form-group mb-3 mx-auto">
+                                        {{ contact_form.phone_number }}
+                                        <div class="invalid-feedback">
+                                            Введите корректный российский номер телефона (+7XXXXXXXXXX)
+                                        </div>
+                                    </div>
+                                
+                                    <div class="form-check mb-1 pl-3" style="font-size:10px;font-weight: 500;">
+                                        <input class="form-check-input" type="checkbox" value="" id="consent4" required>
+                                        <label class="form-check-label" for="consent4">
+                                            Согласен(-на) на обработку персональных данных 
+                                        </label>
+                                    </div>
+                                    <div class="form-check mb-2 ml-2" style="font-size:10px;font-weight: 500;">
+                                        <input class="form-check-input" type="checkbox" value="" id="consent3" required>
+                                        <label class="form-check-label" for="consent3">
+                                            Согласен(-на) с политикой конфиденциальности
+                                        </label>
+                                    </div>
+                                    <div class="form-group mb-3 mx-auto">
+                                        <button type="submit" class="btn btn-primary">Отправить</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </section>
+                        
+                        <div class="container p-4">
+                            <div class="row">
+                                <div class="col-lg-4 col-md-6 mb-4">
+                                    <h5 class="">Направления</h5> 
+                                    <ul class="list-unstyled mb-0">
+                                        {% for c in categories %}
+                                        <li>
+                                        <a class="" href="{{ c.get_absolute_url }}">{{ c.name }}</a>
+                                        </li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                                <div class="col-lg-4 col-md-6 mb-4">
+                                    <h5 class="">О нас</h5>
+                                    <ul class="list-unstyled mb-0">
+                                    <li>
+                                    <a class=""  href="{% url 'profi_main:about' %}"> Об организации</a>
+                                        </li>
+                                        <li>
+                                            <a class=""  href="{% url 'profi_main:about' %}">Наши преподаватели</a>
+                                            </li>
+                                    </ul>
+                                </div>
+                                <div class="col-lg-4 col-md-6 mb-4">
+                                    <h5 class="">Контакты</h5>
+                                    <ul class="list-unstyled mb-0">
+                                        <li>
+                                            107093, г. Москва, ул. Каланчёвская д. 11, стр. 3
+                                            </li>
+                                            <li>
+                                                info@academyprofiskills.ru
+                                                </li>
+                                                <li>Будни: 9:00 - 21:00 Сб-Вс: выходные</li>
+                                        </ul>
+                                </div>
+                                <div class="col-lg-12 col-md-12 mb-0 mt-4">
+                                    © 2024 <a href="{% static 'pdf/privacy_policy.pdf' %}" download="Политика_конфиденциальности.pdf">Политика конфиденциальности</a>
+                                </div>
+                            </div>
+                        </div>
+    </div>
+    </footer>
+            
+
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+          
+<style>
+body {
+    background-color: #F4F4F4;
+    font-family: 'Montserrat Alternates', sans-serif;
+}
+
+footer a{
+    color: white;text-decoration: none
+}
+footer a:hover{
+    text-decoration: underline;
+    color: white;
+
+.nav-link.dropdown-toggle {
+    color: black !important;
+}
+
+.nav-link.dropdown-toggle:hover, 
+.nav-link.dropdown-toggle:focus
+.nav-link.dropdown-toggle:active {
+    text-decoration: none;
+    color: black !important;
+    background-color: #F4F4F4;
+}
+
+.dropdown-item:hover, 
+.dropdown-item:focus
+.dropdown-item:active {
+    text-decoration: none;
+    background-color: #f8f9fa; /* Цвет фона при наведении */
+}
+
+.dropdown-item {
+    color: black;
+}
+
+}
+</style>
+                
+</body>
+
+</html>

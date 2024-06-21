@@ -1,0 +1,172 @@
+{% extends "base_generic.html" %}
+{% load static %}
+
+{%block header%}
+
+<link rel="stylesheet" href="{% static 'css/style.css' %}">
+<section class="hero2">
+    <section class="container">
+        <header class="mb-0">
+            <div class="container">
+                <nav class="navbar navbar-expand-lg navbar-light">
+                    <a class="navbar-brand"  href="{% url 'profi_main:index' %}">
+                        <img src="{% static 'img/logo.png' %}" alt="Logo" class="ml-4 mr-5">
+                    </a>
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarNav">
+                        <ul class="navbar-nav ml-auto">
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle pl-3" style="color: black;" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Курсы
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                                    {% for c in categories %}
+                                    <a class="dropdown-item" href="{{ c.get_absolute_url }}">{{ c.name }}</a>
+                                    {% endfor %}
+                                </div>
+                            </li> 
+                            <li class="nav-item pl-3 pr-3"><a style="color: black;" href="{% url 'profi_main:about' %}" class="nav-link">О нас</a></li>
+                            <li class="nav-item ml-3 pr-3"><a style="color: black;" href="{% url 'profi_main:contacts' %}" class="nav-link">Контакты</a></li>
+                            {% if not request.user.is_authenticated %}
+                                <li class="nav-item pl-3 pr-3"><a style='color:#4F618D' href="{% url 'authorization:login' %}" class="nav-link">Войти</a></li>
+                                {% endif%}
+                                {% if request.user.is_authenticated %}
+                                <li class="nav-item pl-3 pr-3"><a style='color:black' href="{% url 'authorization:profile' %}" class="nav-link">Личный кабинет</a></li>
+                                <li class="nav-item pl-3 pr-3">
+                                    <a style='color:black'  href="{% url 'cart:cart_detail' %}" class="nav-link">
+                                        <img style="width:25px; height:25px" src="{% static 'img/basket.png' %}" alt="Basket" class="mb-1">
+                                    </a>
+                                </li>
+                                {% endif%}
+                        </ul>
+                    </div>
+                </nav>
+            </div>
+        </header>
+
+        <div class="container mt-4 pt-5 mb-5">
+            <article class="zagolovok2 mt-5 text-center">
+                <h1 style="font-weight: 700;" >Контакты</h1>
+            </article>
+        </div>
+    
+    </section>
+</section>
+
+<img src="{% static 'img/kaply_1_2.png' %}" alt="Kaply" class="image-kaply14 mb-1">
+<img src="{% static 'img/kaply_1_1.png' %}" alt="Kaply" class="image-kaply13 mb-1">
+
+{%endblock%}
+
+
+
+
+{% block content2 %}
+
+<div class="container mt-5" style="padding-top: 2%;">
+    <div class="row mt-5">
+
+        <div class="col-md-6 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <div class="card-title">Телефон</div>
+                    <div class="card-text1">+ 7 (595) 765-65-45</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6 mb-4">
+        <div class="card">
+            <div class="card-body">
+                <div class="card-title">Электронная почта</div>
+                <div class="card-text1">info@academyprofiskills.ru</div>
+        </div>
+    </div>
+    </div>
+
+    <div class="col-md-6 mb-4">
+    <div class="card">
+        <div class="card-body">
+            <div class="card-title">Режим работы</div>
+            <div class="card-text1">Будни: 9:00 - 18:00<hr>
+                СБ-ВС: выходные</div>
+    </div>
+    </div>
+    </div>
+
+    <div class="col-md-6 mb-4">
+        <div class="card">
+            <div class="card-body">
+                <div class="card-title">Наш адрес</div>
+                <div class="card-text1">107093, г. Москва, ул.Каланчёвская д.11, стр.3</div>
+        </div>
+        </div>
+        </div>
+    </div>
+    
+</div>
+
+
+
+<style>
+    body {
+        background-color: #F4F4F4;
+        font-family: 'Montserrat Alternates', sans-serif;
+    }
+
+    .btn-primary:hover,
+    .btn-primary:active,
+    .btn-primary:focus {
+        background-color: #C1262A;
+        box-shadow: 0 0 5px #C1262A; /* Исправленное значение для box-shadow */
+        color: white;
+    } 
+
+    .card{
+        font-family: 'Montserrat Alternates', sans-serif;
+        background-color:#D6E2FF;
+        border: none;
+    }
+    .card-title {
+        font-size: 0.95em;
+        font-weight: 600;
+        width: 100%;
+    }
+    .card-price {
+        font-size: 1.5em;
+        font-weight: 500;
+    }
+    .card a{
+        color: #17191D;
+        font-size: 0.8em;
+        text-decoration:underline;
+    }
+    .card .card-text2{
+        text-align: end;
+    }
+    .card .card-text1{
+        text-align: start;
+    }
+    .card-button {
+        text-align:end;
+    }
+    .card .btn {
+        border: none;
+        background-color: #C1262A;
+        text-decoration: none;
+        color: #F4F4F4;
+        
+    }
+    .card .podrobnee {
+        padding-top: 12px
+    }
+    .card .btn:hover {
+        border: none;
+        background-color: #C1262A;
+        text-decoration: underline;
+        color: #F4F4F4;
+    }
+</style>
+{%endblock%}

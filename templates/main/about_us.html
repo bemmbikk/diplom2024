@@ -1,0 +1,174 @@
+{% extends "base_generic.html" %}
+{% load static %}
+
+{% block content %}
+
+<div class="row courses2 mt-1" style="justify-content:center;padding-top:10%;">
+        <div class="col-lg-4 col-md-6 col-sm-12  mt-5 mb-5"><a class="btn-block" href="#aboutOr" >Об организации</a></div>
+        <div class="col-lg-4 col-md-6 col-sm-12  mt-5 mb-5"><a class="btn-block" href="#prepodavateli" >Наши преподаватели</a></div>
+</div>
+
+<img src="{% static 'img/kaply_1_2.png' %}" alt="Kaply" class="image-kaply16 mb-1">
+<img src="{% static 'img/kaply_1_1.png' %}" alt="Kaply" class="image-kaply15 mb-1">
+
+{%endblock%}
+
+{% block content2 %}
+        
+        <div class="container mt-5 d-flex flex-column align-items-center" id="#aboutOr">
+            <h1 class="btn-custom4">Об организации</h1>
+            <div class="text-center mt-3">
+                <p>В современном мире наибольшего успеха добиваются специалисты, обладающие комплексными знаниями в различных отраслях. Многие тратят годы на приобретение знаний, необходимых для получения престижной работы.
+                Мы в Академии «Профи Скиллс» оказываем нашим слушателям поддержку в повышении квалификации в максимально удобной форме. Образовательный процесс ориентирован на развитие профессиональных навыков, творческих способностей и формирование лидерских качеств.
+                
+                Принципы нашей работы заключаются в трех основных понятиях:
+                Знания     Опыт    Профессионализм
+                
+                Преподаватели Академии «Профи Скиллс» - признанные профессионалы в своих областях - обладают необходимыми методиками и опытом, чтобы максимально упростить задачу</p>
+            </div>
+        </div>
+        
+        <div class="container mt-5 d-flex flex-column align-items-center" id="prepodavateli">
+            <h2 class="btn-custom5 mb-4">Наши преподаватели</h2>
+            <p class="text-center mt-2 mb-3">
+                Преподаватели Академии «Профи Скиллс» — признанные профессионалы в своих областях — обладают необходимыми методиками и опытом, чтобы максимально упростить задачу получения дополнительной специальности.
+            </p>
+        </div>
+        
+        <div class="container mt-5">
+            <div class="row">
+                {% for teacher in teachers %}
+                <div class="col-md-4 mb-4">
+                    <div class="card">
+                        <img src="{% if teacher.image %}{{ teacher.image.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}" class="card-img-top" alt="{{ teacher.fio }}">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ teacher.fio }}</h5>
+                            <a class="col-md-12 podrobnee">{{ teacher.category }}</a>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+<style>
+body {
+    background-color: #F4F4F4;
+    font-family: 'Montserrat Alternates', sans-serif;
+}
+
+.btn-primary:hover,
+.btn-primary:active,
+.btn-primary:focus {
+    background-color: #C1262A;
+    box-shadow: 0 0 5px #C1262A;
+    color: white;
+}
+
+.btn-custom4 {
+background-color: #6477A8;
+border: none;
+color: white;
+padding: 10px;
+border-radius: 5px;
+width:300px;
+font-size:25px;
+text-align:center;}
+
+
+.btn-custom5 {
+background-color: #6477A8;
+border: none;
+color: white;
+padding: 10px;
+border-radius: 5px;
+width:350px;
+font-size:25px;
+text-align:center;
+}
+
+.btn-custom4:disabled {
+background-color: #6477A8;
+border: none;
+color: white;
+padding: 10px 20px;
+border-radius: 5px;
+width:300px;
+}
+            
+.btn-custom4:hover {
+background-color: #6477A8;
+border: none;
+color: white;
+padding: 10px 20px;
+border-radius: 5px;
+width:300px;
+}
+            .btn-custom4:active {
+                background-color: #6477A8;
+                border: none;
+                color: white;
+                padding: 10px 20px;
+                border-radius: 5px;
+                width:300px;
+            }
+            .disabled {
+                background-color: #6477A8;
+                border: none;
+                color: white;
+                padding: 10px 20px;
+                border-radius: 5px;
+                width:300px;
+            }
+            .card{
+                font-family: 'Montserrat Alternates', sans-serif;
+                background-color:#D6E2FF;
+                border: none;
+            }
+            .card{
+                font-family: 'Montserrat Alternates', sans-serif;
+                background-color:#D6E2FF;
+                border: none;
+            }
+            .card-title {
+                font-size: 0.95em;
+                font-weight: 600;
+                width: 100%;
+            }
+            .card-price {
+                font-size: 1.5em;
+                font-weight: 500;
+            }
+            .card a{
+                color: #17191D;
+                font-size: 0.8em;
+                text-decoration:underline;
+            }
+            .card .card-text2{
+                text-align: end;
+            }
+            .card .card-text1{
+                text-align: start;
+            }
+            .card-button {
+                text-align:end;
+            }
+            .card .btn {
+                border: none;
+                background-color: #C1262A;
+                text-decoration: none;
+                color: #F4F4F4;
+                
+            }
+            .card .podrobnee {
+                padding-top: 12px
+            }
+            .card .btn:hover {
+                border: none;
+                background-color: #C1262A;
+                text-decoration: underline;
+                color: #F4F4F4;
+            }
+        </style>
+
+{%endblock%}

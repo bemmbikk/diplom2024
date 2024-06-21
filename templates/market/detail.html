@@ -1,0 +1,254 @@
+{% extends "base_generic.html" %}
+{% load static %}
+
+{% block styles %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<div class="container mt-5 pt-5 mb-5">
+    <article class="zagolovok text-center">
+        <h1>{{ product.name }}</h1>
+        <p>{{ product.description|linebreaksbr }}</p>
+    </article>
+    
+    <section class="row knopki justify-content-center pr-4">
+        
+        {% if request.user.is_authenticated %}
+        <div class="pr-5">
+            <form method="post" action="{% url 'cart:cart_add' product.id %}">
+                {% csrf_token %}
+                {{ cart_product_form }}
+                <button class="btn btn-primary btn-custom" type="submit">Добавить в корзину</button>
+            </form>
+        </div>
+        {%endif%}
+
+        {% if not request.user.is_authenticated %}
+        <div class="pr-5">
+            <form method="post" action="{% url 'authorization:login' %}">
+                {% csrf_token %}
+                {{ cart_product_form }}
+                <button class="btn btn-primary btn-custom" type="submit">Добавить в корзину</button>
+            </form>
+        </div>
+        {%endif%}
+
+        <a href="{% url 'profi_main:index'%}#form_cont" class="btn btn-primary btn-custom2">Получить консультацию</a>
+    </section>
+    
+    <img src="{% static 'img/kaply_1_2.png' %}" alt="Kaply" class="image-kaply16 mb-1">
+    <img src="{% static 'img/kaply_1_1.png' %}" alt="Kaply" class="image-kaply17 mb-1">
+
+{% endblock %}
+
+{% block content2 %}
+<section class="features text-center">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4">
+                <img src="{% static 'img/laptop.png' %}" alt="" class="mb-1">
+                <h3>Начало и срок обучения</h3>
+                <p>Начало обучения после оплаты (без формирования группы), индивидуальный темп</p>
+            </div>
+            <div class="col-md-4">
+                <img src="{% static 'img/format2.png' %}" alt="" class="mb-1">
+                <h3>Удобный формат</h3>
+                <p>Без отрыва от работы, отправим файл с обучением на почту</p>
+            </div>
+            <div class="col-md-4">
+                <img src="{% static 'img/format.png' %}" alt="" class="mb-1">
+                <h3>Документ об обучении в электронном формате</h3>
+                <p>Отправляется на электронную почту слушателя</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="container cards mt-5">
+    <div class="row">
+        <div class="col-md-6 mb-4">
+            <div class="card card-custom">
+                <div class="card-header card-header-custom">
+                    Описание
+                </div>
+                <div class="card-body card-body-custom">
+                    <p>{{ product.description2|linebreaksbr }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 mb-4">
+            <div class="card card-custom">
+                <div class="card-header card-header-custom">
+                    Детали курса
+                </div>
+                <div class="card-body card-body-custom">
+                    <p><strong>Длительность обучения:</strong> {{ product.time_prog }} ак.ч.</p>
+                    <p><strong>Формат обучения:</strong> Дистанционно</p>
+                    <p><strong>Выдаваемый документ:</strong> Удостоверение о повышении квалификации</p>
+                    <p><strong>Стоимость обучения:</strong> <span class="price">{{ product.price|floatformat:0 }}р.</span></p>
+                    {% if request.user.is_authenticated %}
+                    <div class="card-body-custom2">
+                        <form method="post" action="{% url 'cart:cart_add' product.id %}">
+                            {% csrf_token %}
+                            {{ cart_product_form }}
+                            <button class="btn btn-primary btn-custom" type="submit">Добавить в корзину</button>
+                        </form>
+                    </div>
+                    {%endif%}
+                    {% if not request.user.is_authenticated %}
+                    <div class="card-body-custom2">
+                        <form method="post" action="{% url 'authorization:login' %}">
+                            {% csrf_token %}
+                            {{ cart_product_form }}
+                            <button class="btn btn-primary btn-custom" type="submit">Добавить в корзину</button>
+                        </form>
+                    </div>
+                    {%endif%}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<style>
+    .zagolovok{
+        text-align:center;
+    }
+    .zagolovok h1{
+        font-weight:600;
+    }
+    body {
+        background-color: #F4F4F4;
+        font-family: 'Montserrat Alternates', sans-serif;
+    }
+    
+    .card-custom {
+        border: none;
+        border-radius: 10px;
+    }
+    .card-header-custom {
+        background-color: #6477A8;
+        color: white;
+        font-weight: bold;
+        text-align: center;
+    }
+    .card-body-custom {
+        background-color: #D6E2FF;
+        padding: 20px;
+        font-size: 0.95em;
+        border-radius: 0 0 10px 10px;
+        text-align: start;
+    }
+    .card-body-custom2 {
+        background-color: #D6E2FF;
+        padding: 5px;
+        font-size: 0.95em;
+        border-radius: 0 0 10px 10px;
+        text-align: center;
+    }
+    .price {
+        color: #C1262A;
+        font-weight: 600;
+    }
+    .btn-custom {
+        background-color: #C1262A;
+        border: none;
+        color: white;
+        border-radius: 5px;
+        padding: 10px 20px;
+        text-align: center;
+
+    }
+    .btn-custom2 {
+        background-color: #6477A8;
+        border: none;
+        color: white;
+        padding: 10px 20px;
+        border-radius: 5px;
+        width:300px;
+    }
+.btn-custom2:hover,
+.btn-custom2:active,
+.btn-custom2:focus {
+background-color: #6477A8;
+box-shadow: 0 0 5px #6477A8; /* Исправленное значение для box-shadow */
+color: white;
+}
+    .btn-custom3 {
+        background-color: #C1262A;
+        border: none;
+        color: white;
+        border-radius: 5px;
+        padding: 10px 20px;
+        text-align: center;
+        width:300px;
+
+    }
+    .knopki {
+       justify-content:center;
+    }
+    .zagolovok2 {
+        text-align: center;
+        z-index: 999;
+    }
+    .btn-primary:hover,
+    .btn-primary:active,
+    .btn-primary:focus {
+        background-color: #C1262A;
+        box-shadow: 0 0 5px #C1262A;
+        color: white;
+    }
+    .zagolovok2 h1 {
+        font-weight: 700;
+    }
+    body {
+        background-color: #F4F4F4;
+        font-family: 'Montserrat Alternates', sans-serif;
+    }
+    .card {
+        font-family: 'Montserrat Alternates', sans-serif;
+        background-color: #D6E2FF;
+        border: none;
+    }
+    .card-title {
+        font-size: 0.98em;
+        font-weight: 600;
+        width: 100%;
+    }
+    .card-price {
+        font-size: 1.5em;
+        font-weight: 500;
+    }
+    .card a {
+        color: #17191D;
+        font-size: 0.8em;
+        text-decoration: underline;
+    }
+    .card .card-text2 {
+        text-align: end;
+    }
+    .card .card-text1 {
+        text-align: start;
+    }
+    .card-button {
+        text-align: end;
+    }
+    .card .btn {
+        border: none;
+        background-color: #C1262A;
+        text-decoration: none;
+        color: #F4F4F4;
+    }
+    .card .podrobnee {
+        padding-top: 12px;
+    }
+    .card .btn:hover {
+        border: none;
+        background-color: #C1262A;
+        text-decoration: underline;
+        color: #F4F4F4;
+    }
+</style>
+{% endblock %}

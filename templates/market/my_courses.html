@@ -1,0 +1,300 @@
+{% extends "base_generic.html" %}
+{% load static %}
+
+{% block header %}
+<section class="hero2">
+    <section class="container">
+        <header class="mb-0">
+            <div class="container">
+                <nav class="navbar navbar-expand-lg navbar-light">
+                    <a class="navbar-brand"  href="{% url 'profi_main:index' %}">
+                        <img src="{% static 'img/logo.png' %}" alt="Logo" class="ml-4 mr-5">
+                    </a>
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarNav">
+                        <ul class="navbar-nav ml-auto">
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle pl-3" style="color: black;" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Курсы
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                                    {% for c in categories %}
+                                    <a class="dropdown-item" href="{{ c.get_absolute_url }}">{{ c.name }}</a>
+                                    {% endfor %}
+                                </div>
+                            </li> 
+                            <li class="nav-item pl-3 pr-3"><a style="color: black;" href="{% url 'profi_main:about' %}" class="nav-link">О нас</a></li>
+                            <li class="nav-item ml-3 pr-3"><a style="color: black;" href="{% url 'profi_main:contacts' %}" class="nav-link">Контакты</a></li>
+                            {% if not request.user.is_authenticated %}
+                                <li class="nav-item pl-3 pr-3"><a style='color:#4F618D' href="{% url 'authorization:login' %}" class="nav-link">Войти</a></li>
+                                {% endif%}
+                                {% if request.user.is_authenticated %}
+                                <li class="nav-item pl-3 pr-3"><a style='color:black' href="{% url 'authorization:profile' %}" class="nav-link">Личный кабинет</a></li>
+                                <li class="nav-item pl-3 pr-3">
+                                    <a style='color:black'  href="{% url 'cart:cart_detail' %}" class="nav-link">
+                                        <img style="width:25px; height:25px" src="{% static 'img/basket.png' %}" alt="Basket" class="mb-1">
+                                    </a>
+                                </li>
+                                {% endif%}
+                        </ul>
+                    </div>
+                </nav>
+            </div>
+        </header>
+
+        <div class="container mt-4 pt-5 mb-5">
+            <article class="zagolovok2 mt-5 text-center">
+                <h1>Личный кабинет</h1>
+            </article>
+        </div>
+
+    </section>
+</section>
+
+<img src="{% static 'img/kaply_1_2.png' %}" alt="Kaply" class="image-kaply21 mb-1">
+<img src="{% static 'img/kaply_1_1.png' %}" alt="Kaply" class="image-kaply13 mb-1">
+{% endblock %}
+
+
+{% block content2 %}
+
+<div class="container2">
+
+  <div class="sidebar">
+    <a class="btn mt-3 nav-item pl-3 pr-3" href="{% url 'authorization:profile' %}">Профиль</a>
+    <a class="btn mt-3 nav-item active pl-3 pr-3" href="{% url 'my_courses' %}">Мои курсы</a>
+  </div>
+
+  <div class="profile-container">
+    <div class="profile-header">
+      <h2>Доступные курсы</h2>
+    </div>
+    <ul class="course-list">
+      {% for course in courses %}
+          <li class="course-item">
+              <span>{{ course.name }}</span>
+              <span class="pdf-link"><a href="{{ course.pdf.url }}" class="btn btn-custom">Скачать PDF</a></span>
+          </li>
+          {% endfor %}
+    </ul>
+  </div>
+
+</div>
+
+<style>
+    body {
+        background-color: #F4F4F4;
+        font-family: 'Montserrat Alternates', sans-serif;
+    }
+    .container2 {
+        display: flex;
+        padding: 20px;
+        justify-content: center;
+    }
+    .sidebar {
+        width: 200px;
+        margin-right: 20px;
+    }
+    .sidebar .btn {
+        width: 100%;
+        margin-bottom: 10px;
+        background-color: #F4F4F4;
+        border: none;
+        color: #000;
+        text-align: left;
+        padding: 10px;
+        cursor: pointer;
+        border-radius: 5px;
+    }
+    .sidebar .btn.active {
+        background-color: #D6E2FF;
+        color: #000;
+    }
+    .profile-container {
+        border-radius: 10px;
+        background-color: #F4F4F4;
+        flex-grow: 1;
+        max-width: 800px;
+    }
+    ul{
+      list-style-type: none;
+    }
+    .course-list {
+      list-style-type: none; /* Убираем маркеры списка */
+      padding: 0;
+      margin: 0;
+  }
+  
+  .course-item {
+      display: flex;
+      justify-content: space-between; /* Разделяем элементы по краям */
+      align-items: center; /* Выравниваем элементы по центру вертикали */
+      margin-bottom: 10px; /* Добавляем отступ между элементами */
+  }
+  
+  .pdf-link {
+      margin-left: auto; /* Отталкиваем ссылку к правому краю */
+  }
+  
+  .sidebar {
+    width: 200px;
+    margin-right: 20px;
+}
+.sidebar .btn {
+    width: 100%;
+    margin-bottom: 10px;
+    background-color: #F4F4F4;
+    border: none;
+    color: #000;
+    text-align: left;
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+.sidebar .btn.active {
+    background-color: #D6E2FF;
+    color: #000;
+}
+.profile-container {
+    border-radius: 10px;
+    padding: 20px;
+    background-color: #F4F4F4;
+    flex-grow: 1;
+    max-width: 800px; /* Ограничение ширины контейнера */
+}
+.profile-header {
+    text-align: left;
+    margin-bottom: 30px;
+}
+.profile-header h2 {
+    font-size: 24px;
+    font-weight: bold;
+    margin: 0;
+}
+.profile-form {
+    display: flex;
+    flex-direction: column;
+    background-color: #F4F4F4;
+    padding: 20px;
+    border-radius: 10px;
+}
+.form-group3 {
+    margin-bottom: 20px;
+}
+.form-group3 label {
+    font-weight: bold;
+    display: block;
+    margin-bottom: 5px;
+}
+.profile-form {
+    display: flex;
+    flex-direction: column;
+    background-color: #F4F4F4;
+    padding: 20px;
+    border-radius: 10px;
+}
+.form-control3 {
+    width: 100%; /* Ширина поля ввода */
+    padding: 8px;
+    border: none;
+    border-radius: 0;
+    background-color: #F4F4F4;
+}
+.form-control3:focus, .form-control3:hover {
+    outline: none;
+    box-shadow: none;
+}
+.form-control3[disabled] {
+    color: black;
+}
+.btn-primary2 {
+    background-color: #6477A8;
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    align-self: flex-start;
+}
+.zagolovok2 {
+        text-align: center;
+    }
+    .zagolovok2 h1 {
+        font-weight: 700;
+    }
+    body {
+        background-color: #F4F4F4;
+        font-family: 'Montserrat Alternates', sans-serif;
+    }
+    .card-custom {
+        border: none;
+        border-radius: 10px;
+    }
+    .card-header-custom {
+        background-color: #6477A8;
+        color: white;
+        font-weight: bold;
+        text-align: center;
+    }
+    .card-body-custom {
+        background-color: #D6E2FF;
+        padding: 20px;
+        font-size: 0.95em;
+        border-radius: 0 0 10px 10px;
+        text-align: start;
+    }
+    .card-body-custom2 {
+        background-color: #D6E2FF;
+        padding: 5px;
+        font-size: 0.95em;
+        border-radius: 0 0 10px 10px;
+        text-align: center;
+    }
+    .price {
+        color: #C1262A;
+        font-weight: 600;
+    }
+    .btn-custom {
+        background-color: #C1262A;
+        border: none;
+        color: white;
+        border-radius: 5px;
+        padding: 10px 20px;
+        text-align: center;
+    }
+    .btn-custom2 {
+        background-color: #6477A8;
+        border: none;
+        color: white;
+        padding: 10px 20px;
+        border-radius: 5px;
+        width: 300px;
+    }
+    .btn-custom3 {
+        background-color: #C1262A;
+        border: none;
+        color: white;
+        border-radius: 5px;
+        padding: 10px 20px;
+        text-align: center;
+        width: 300px;
+    }
+    .knopki {
+        justify-content: center;
+    }
+    .contact-card {
+        text-align: center;
+    }
+    .contact-title {
+        font-weight: bold;
+        font-size: 1.2em;
+    }
+    .contact-info {
+        font-size: 1em;
+        margin-top: 5px;
+    }
+</style>
+
+{% endblock %}

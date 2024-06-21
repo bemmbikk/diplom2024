@@ -1,0 +1,159 @@
+{% extends "base_generic.html" %}
+{% load static %}
+
+{%block header%}
+<link rel="stylesheet" href="{% static 'css/style.css' %}">
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
+
+<section class="hero2">
+    <section class="container">
+        <header class="mb-0">
+            <div class="container">
+                <nav class="navbar navbar-expand-lg navbar-light">
+                    <a class="navbar-brand"  href="{% url 'profi_main:index' %}">
+                        <img src="{% static 'img/logo.png' %}" alt="Logo" class="ml-4 mr-5">
+                    </a>
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarNav">
+                        <ul class="navbar-nav ml-auto">
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle pl-3" style="color: black;" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Курсы
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                                    {% for c in categories %}
+                                    <a class="dropdown-item" href="{{ c.get_absolute_url }}">{{ c.name }}</a>
+                                    {% endfor %}
+                                </div>
+                            </li> 
+                            <li class="nav-item pl-3 pr-3"><a style="color: black;" href="{% url 'profi_main:about' %}" class="nav-link">О нас</a></li>
+                            <li class="nav-item ml-3 pr-3"><a style="color: black;" href="{% url 'profi_main:contacts' %}" class="nav-link">Контакты</a></li>
+                            {% if not request.user.is_authenticated %}
+                                <li class="nav-item pl-3 pr-3"><a style='color:#4F618D' href="{% url 'authorization:login' %}" class="nav-link">Войти</a></li>
+                                {% endif%}
+                                {% if request.user.is_authenticated %}
+                                <li class="nav-item pl-3 pr-3"><a style='color:black' href="{% url 'authorization:profile' %}" class="nav-link">Личный кабинет</a></li>
+                                <li class="nav-item pl-3 pr-3">
+                                    <a style='color:black'  href="{% url 'cart:cart_detail' %}" class="nav-link">
+                                        <img style="width:25px; height:25px" src="{% static 'img/basket.png' %}" alt="Basket" class="mb-1">
+                                    </a>
+                                </li>
+                                {% endif%}
+                        </ul>
+                    </div>
+                </nav>
+            </div>
+        </header>
+
+
+<div class="container mt-4 pt-5 mb-5">
+    <article class="zagolovok2 mt-5 text-center">
+        <h1>Авторизация</h1>
+    </article>
+</div>
+    
+</section>
+</section>
+
+<img src="{% static 'img/kaply_1_2.png' %}" alt="Kaply" class="image-kaply14 mb-1">
+<img src="{% static 'img/kaply_1_1.png' %}" alt="Kaply2" class="image-kaply13 mb-1">
+{%endblock%}
+
+
+{% block content2 %}
+<section class="text-center mt-5">
+    <div class="container cta mb-4">
+        <h2 class="pt-4">Растите вместе с нами!</h2>
+        <h3>Войдите в свой профиль</h3>
+        <form method="post" action="{% url 'authorization:login' %}" class="form-center">
+                {% csrf_token %}
+                <div class="form-group mb-3 mt-2 mx-auto">
+                    <input type="email" name="{{ form.username.name }}" value="{% if form.username.value %}{{ form.username.value }}{% endif %}" class="form-control" style="width: 320px;border: #4F618D 1px solid;" placeholder="Ваш email" required>
+                </div>
+                <div class="form-group mb-3 mx-auto">
+                    <input type="password" name="{{ form.password.name }}" class="form-control" style="width: 320px;border: #4F618D 1px solid;" placeholder="Ваш пароль" required>
+                </div>
+            <button type="submit" class="btn btn-primary mb-2">Войти</button>
+        </form>
+        <div class="form-group mb-3 mt-2 mx-auto">
+            <p class="pb-4"  style="font-weight: 500;">Нет аккаунта? <a class="mb-4" style="color: #4F618D;font-weight: 500;"  href="{% url 'authorization:register' %}#registration-form">Зарегистрируйтесь</a></p>
+    </div>
+</section>
+
+<style>
+    .zagolovok2 {
+        text-align: center;
+    }
+    .zagolovok2 h1 {
+        font-weight: 700;
+    }
+    body {
+        background-color: #F4F4F4;
+        font-family: 'Montserrat Alternates', sans-serif;
+    }
+    .card-custom {
+        border: none;
+        border-radius: 10px;
+    }
+    .card-header-custom {
+        background-color: #6477A8;
+        color: white;
+        font-weight: bold;
+        text-align: center;
+    }
+    .card-body-custom {
+        background-color: #D6E2FF;
+        padding: 20px;
+        font-size: 0.95em;
+        border-radius: 0 0 10px 10px;
+        text-align: start;
+    }
+    .card-body-custom2 {
+        background-color: #D6E2FF;
+        padding: 5px;
+        font-size: 0.95em;
+        border-radius: 0 0 10px 10px;
+        text-align: center;
+    }
+    .btn-primary {
+        background-color: #C1262A;
+        border: none;
+        color: white;
+        border-radius: 5px;
+        padding: 10px 20px;
+        text-align: center;
+    }
+    .btn-primary:hover {
+        background-color: #C1262A;
+        border: none;
+        color: white;
+        border-radius: 5px;
+        padding: 10px 20px;
+        text-align: center;
+    }
+    .knopki {
+        justify-content: center;
+    }
+    .contact-card {
+        text-align: center;
+    }
+    .contact-title {
+        font-weight: bold;
+        font-size: 1.2em;
+    }
+    .contact-info {
+        font-size: 1em;
+        margin-top: 5px;
+    }
+    .form-center {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+</style>
+{% endblock %}
+{%block reg%}
+{%endblock%}

@@ -1,0 +1,158 @@
+{% extends "base_generic.html" %}
+{% load static %}
+
+{% block header %}
+<section class="hero2">
+    <section class="container">
+      <header class="mb-0">
+        <div class="container">
+            <nav class="navbar navbar-expand-lg navbar-light">
+                <a class="navbar-brand"  href="{% url 'profi_main:index' %}">
+                    <img src="{% static 'img/logo.png' %}" alt="Logo" class="ml-4 mr-5">
+                </a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ml-auto">
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle pl-3" style="color: black;" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Курсы
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                                {% for c in categories %}
+                                <a class="dropdown-item" href="{{ c.get_absolute_url }}">{{ c.name }}</a>
+                                {% endfor %}
+                            </div>
+                        </li> 
+                        <li class="nav-item pl-3 pr-3"><a style="color: black;" href="{% url 'profi_main:about' %}" class="nav-link">О нас</a></li>
+                        <li class="nav-item ml-3 pr-3"><a style="color: black;" href="{% url 'profi_main:contacts' %}" class="nav-link">Контакты</a></li>
+                        {% if not request.user.is_authenticated %}
+                            <li class="nav-item pl-3 pr-3"><a style='color:#4F618D' href="{% url 'authorization:login' %}" class="nav-link">Войти</a></li>
+                            {% endif%}
+                            {% if request.user.is_authenticated %}
+                            <li class="nav-item pl-3 pr-3"><a style='color:black' href="{% url 'authorization:profile' %}" class="nav-link">Личный кабинет</a></li>
+                            <li class="nav-item pl-3 pr-3">
+                                <a style='color:black'  href="{% url 'cart:cart_detail' %}" class="nav-link">
+                                    <img style="width:25px; height:25px" src="{% static 'img/basket.png' %}" alt="Basket" class="mb-1">
+                                </a>
+                            </li>
+                            {% endif%}
+                    </ul>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container mt-4 pt-5 mb-5">
+      <article class="zagolovok2 mt-5 text-center">
+        <h1>Корзина</h1>
+      </article>
+    </div>
+    
+  </section>
+</section>
+
+  <img src="{% static 'img/kaply_1_2.png' %}" alt="Kaply" class="image-kaply14 mb-1">
+  <img src="{% static 'img/kaply_1_1.png' %}" alt="Kaply" class="image-kaply18 mb-1">
+{% endblock %}
+
+
+{% block content2 %}
+<div class="container mt-5">
+
+    {% for item in cart %}
+    {% with product=item.product %}
+  <div class="blue-block mb-3">
+    <div class="cart-item">
+      <span class="item-name">{{ product.name }}</span>
+      <span class="item-price">{{ item.price|floatformat:0  }}р.</span>
+      <a href="{% url 'cart:cart_remove' product.id %}" class="remove-link">Удалить</a>
+    </div>
+  </div>    
+    {% endwith %}
+
+    {% empty %}
+      <p>Ваша корзина пуста</p>
+    {% endfor %}
+
+  <div class="total">
+    <span>Итого</span>
+    <span class="total-price">{{ cart.get_total_price|floatformat:0  }}р.</span>
+  </div>
+
+  {% if request.user.is_authenticated %}
+  <p class="text-right">
+    <a href="{% url 'cart:order_create' %}" class="button light" style='color:#4F618D'>Перейти к оформлению</a>
+  </p>
+  {%endif%}
+
+</div>
+
+
+
+<style>
+.blue-block 
+{
+  font-family: 'Montserrat Alternates', sans-serif;
+  background-color: #e6efff; 
+  padding: 15px; 
+  border-radius: 10px;
+}
+
+.btn-primary:hover,
+.btn-primary:active,
+.btn-primary:focus 
+{
+  background-color: #C1262A;
+  box-shadow: 0 0 5px #C1262A; 
+  color: white;
+}
+
+.cart-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+}
+    
+.cart-item .item-name 
+{
+      font-weight: bold;
+      font-size:1.1em;
+}
+
+.zagolovok2 
+{
+      text-align: center;
+}
+    .zagolovok2 h1 {
+      font-weight: 700;
+    }
+    .cart-item .item-price {
+      margin-left: auto;
+      margin-right: 20px; /* Space between price and delete link */
+    }
+    
+    .remove-link {
+      color: red;
+      text-decoration: none;
+    }
+    
+    .remove-link:hover {
+      text-decoration: underline;
+    }
+    
+    .total {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      margin-top: 15px;
+      font-weight: bold;
+    }
+    
+    .total .total-price {
+      margin-left: 10px;
+    }
+</style>
+    
+{% endblock %}

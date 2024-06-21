@@ -1,0 +1,218 @@
+{% extends "base_generic.html" %}
+{% load widget_tweaks %}
+{% load static %}
+
+{% block header %}
+<section class="hero2">
+    <section class="container">
+        <header class="mb-0">
+            <div class="container">
+                <nav class="navbar navbar-expand-lg navbar-light">
+                    <a class="navbar-brand"  href="{% url 'profi_main:index' %}">
+                        <img src="{% static 'img/logo.png' %}" alt="Logo" class="ml-4 mr-5">
+                    </a>
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarNav">
+                        <ul class="navbar-nav ml-auto">
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle pl-3" style="color: black;" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Курсы
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                                    {% for c in categories %}
+                                    <a class="dropdown-item" href="{{ c.get_absolute_url }}">{{ c.name }}</a>
+                                    {% endfor %}
+                                </div>
+                            </li> 
+                            <li class="nav-item pl-3 pr-3"><a style="color: black;" href="{% url 'profi_main:about' %}" class="nav-link">О нас</a></li>
+                            <li class="nav-item ml-3 pr-3"><a style="color: black;" href="{% url 'profi_main:contacts' %}" class="nav-link">Контакты</a></li>
+                            {% if not request.user.is_authenticated %}
+                                <li class="nav-item pl-3 pr-3"><a style='color:#4F618D' href="{% url 'authorization:login' %}" class="nav-link">Войти</a></li>
+                                {% endif%}
+                                {% if request.user.is_authenticated %}
+                                <li class="nav-item pl-3 pr-3"><a style='color:black' href="{% url 'authorization:profile' %}" class="nav-link">Личный кабинет</a></li>
+                                <li class="nav-item pl-3 pr-3">
+                                    <a style='color:black' href="{% url 'cart:cart_detail' %}" class="nav-link">
+                                        <img style="width:25px; height:25px" src="{% static 'img/basket.png' %}" alt="Basket" class="mb-1">
+                                    </a>
+                                </li>
+                                {% endif%}
+                        </ul>
+                    </div>
+                </nav>
+            </div>
+        </header>
+    
+        <div class="container mt-4 pt-5 mb-5">
+            <article class="zagolovok2 mt-5 text-center">
+                <h1>Оформление заказа</h1>
+            </article>
+        </div>
+
+    </section>
+</section>
+
+<img src="{% static 'img/kaply_1_2.png' %}" alt="Kaply" class="image-kaply14 mb-1">
+<img src="{% static 'img/kaply_1_1.png' %}" alt="Kaply" class="image-kaply15 mb-1">
+{% endblock %}
+
+
+{% block content2 %}
+<div class="container text-center">
+    <div class="order-info">
+        <form method="POST" class="form-inline flex-column" action="{% url 'cart:order_create' %}">
+            {% csrf_token %}
+            <div class="form-group mt-5 mb-3 mt-2 mx-auto">
+                {{ form.fio }}
+            </div>
+            <div class="form-group mb-3 mx-auto">
+                {{ form.email }}
+            </div>
+            <div class="form-group mb-3 mx-auto" >
+                {{ form.phone_number }}
+                <div class="invalid-feedback">
+                    Введите корректный российский номер телефона (+7XXXXXXXXXX)
+                </div>
+            </div>
+            <div class="form-check mb-1 pl-3" style="font-size:10px">
+                <input class="form-check-input" type="checkbox" value="" id="consent1" required>
+                <label class="form-check-label" for="consent1">
+                    Согласен(-на) на обработку персональных данных 
+                </label>
+            </div>
+            <div class="form-check mb-3 ml-2" style="font-size:10px">
+                <input class="form-check-input" type="checkbox" value="" id="consent2" required>
+                <label class="form-check-label" for="consent2">
+                    Согласен(-на) с политикой конфиденциальности
+                </label>
+            </div>
+            <div class="form-group mb-3 mx-auto">
+                <button type="submit" class="btn btn-primary">Отправить</button>
+            </div>
+        </form>   
+</div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const editBtn = document.getElementById('edit-btn');
+    const saveBtn = document.getElementById('save-btn');
+    const formControls = document.querySelectorAll('.form-control3');
+
+    // Изначально делаем все поля недоступными
+    formControls.forEach(control => control.setAttribute('disabled', 'disabled'));
+
+    editBtn.addEventListener('click', function() {
+        formControls.forEach(control => control.removeAttribute('disabled'));
+        editBtn.style.display = 'none';
+        saveBtn.style.display = 'inline-block';
+    });
+});
+</script>
+<style>
+    body {
+        background-color: #F4F4F4;
+        font-family: 'Montserrat Alternates', sans-serif;
+    }
+    .container2 {
+        display: flex;
+        padding: 20px;
+        justify-content: center; /* Центрирование контейнера */
+    }
+    .zagolovok2 {
+        text-align: center;
+    }
+    .zagolovok2 h1 {
+        font-weight: 700;
+    }
+    .sidebar {
+        width: 200px;
+        margin-right: 20px;
+    }
+    .sidebar .btn {
+        width: 100%;
+        margin-bottom: 10px;
+        background-color: #F4F4F4;
+        border: none;
+        color: #000;
+        text-align: left;
+        padding: 10px;
+        cursor: pointer;
+        border-radius: 5px;
+    }
+    .sidebar .btn.active {
+        background-color: #D6E2FF;
+        color: #000;
+    }
+    .profile-container {
+        border-radius: 10px;
+        padding: 20px;
+        background-color: #F4F4F4;
+        flex-grow: 1;
+        max-width: 800px; /* Ограничение ширины контейнера */
+    }
+    .profile-header {
+        text-align: left;
+        margin-bottom: 30px;
+    }
+    .profile-header h2 {
+        font-size: 24px;
+        font-weight: bold;
+        margin: 0;
+    }
+    .profile-form {
+        display: flex;
+        flex-direction: column;
+        background-color: #F4F4F4;
+        padding: 20px;
+        border-radius: 10px;
+    }
+    .form-group3 {
+        margin-bottom: 20px;
+    }
+    .form-group3 label {
+        font-weight: bold;
+        display: block;
+        margin-bottom: 5px;
+    }
+    .profile-form {
+        display: flex;
+        flex-direction: column;
+        background-color: #F4F4F4;
+        padding: 20px;
+        border-radius: 10px;
+    }
+    .form-control3 {
+        width: 100%; /* Ширина поля ввода */
+        padding: 8px;
+        border: none;
+        border-radius: 0;
+        background-color: #F4F4F4;
+    }
+    .form-control3:focus, .form-control3:hover {
+        outline: none;
+        box-shadow: none;
+    }
+    .form-control3[disabled] {
+        color: black;
+    }
+    .btn-primary2 {
+        background-color: #6477A8;
+        border: none;
+        color: white;
+        padding: 10px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+        align-self: flex-start;
+    }
+    .btn-primary:hover,
+.btn-primary:active,
+.btn-primary:focus {
+    background-color: #C1262A;
+    box-shadow: 0 0 5px #C1262A; /* Исправленное значение для box-shadow */
+    color: white;
+} 
+</style>
+{% endblock %}

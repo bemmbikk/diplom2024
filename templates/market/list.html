@@ -1,0 +1,128 @@
+{% extends "base_generic.html" %}
+{% load static %}
+
+{% block content %}
+<div class="container mt-1 pt-2 mb-5">
+    <article class="zagolovok2 mt-5 text-center">
+        <h1>Программы повышения квалификации</h1>
+    </article>
+</div>
+
+<div class="row courses2 mt-4">
+    {% for c in categories %}
+        <div class="col-lg-4 col-md-6 col-sm-12 mt-3 mb-3">
+            <a class="btn-block btn btn-outline-primary" href="{{ c.get_absolute_url }}">{{ c.name }}</a>
+        </div>
+    {% endfor %}
+</div>
+
+<img src="{% static 'img/kaply_1_2.png' %}" alt="Kaply" class="img-fluid image-kaply16 mb-1">
+<img src="{% static 'img/kaply_1_1.png' %}" alt="Kaply" class="img-fluid image-kaply17 mb-1">
+{% endblock %}
+
+{% block content2 %}
+<div class="container mt-5">
+    <h2 class="text-center mb-5 mt-5">{% if category %}{{ category.name }}{% else %}Курсы{% endif %}</h2>
+    <div class="row">
+        {% for product in products %}
+        <div class="col-lg-4 col-md-6 col-sm-12 mb-4">
+            <div class="card">
+                <img src="{% if product.image %}{{ product.image.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}" class="card-img-top img-fluid" alt="{{ product.name }}">
+                <div class="card-body">
+                    <div class="row">
+                        <p class="card-text1 col-6">{{ product.time_prog }} ак.ч</p>
+                        <p class="card-text2 col-6">{{ product.price|floatformat:0 }}р.</p>
+                    </div>
+                    <h5 class="card-title">{{ product.name }}</h5>
+                    <div class="row">
+                        <a class="col-sm-12  col-md-4 podrobnee" href="{{ product.get_absolute_url }}">Подробнее</a>
+                        {% if request.user.is_authenticated %}
+                        <div class="card-button col-sm-12 mt-2 col-md-8 mt-md-2 mt-sm-0">
+                            <form method="post" action="{% url 'cart:cart_add' product.id %}">
+                                {% csrf_token %}
+                                {{ cart_product_form }}
+                                <button class="btn btn-primary mt-2 mt-md-0" type="submit">В корзину</button>
+                            </form>
+                        </div>
+                        {% else %}
+                        <div class="card-button col-sm-12 mt-2 col-md-8 mt-md-2 mt-sm-0"><a href="{% url 'authorization:login' %}" class="btn btn-primary mt-2 mt-md-0">В корзину</a></div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<style>
+    @media (max-width: 991px) {
+    .courses2{
+        display: none;
+    }
+    }
+</style>
+<style>
+    .zagolovok2 {
+        text-align: center;
+        z-index: 999;
+    }
+    .btn-primary:hover,
+    .btn-primary:active,
+    .btn-primary:focus {
+        background-color: #C1262A;
+        box-shadow: 0 0 5px #C1262A;
+        color: white;
+    }
+    .zagolovok2 h1 {
+        font-weight: 700;
+    }
+    body {
+        background-color: #F4F4F4;
+        font-family: 'Montserrat Alternates', sans-serif;
+    }
+    .card {
+        font-family: 'Montserrat Alternates', sans-serif;
+        background-color: #D6E2FF;
+        border: none;
+    }
+    .card-title {
+        font-size: 0.98em;
+        font-weight: 600;
+        width: 100%;
+    }
+    .card-price {
+        font-size: 1.5em;
+        font-weight: 500;
+    }
+    .card a {
+        color: #17191D;
+        font-size: 0.8em;
+        text-decoration: underline;
+    }
+    .card .card-text2 {
+        text-align: end;
+    }
+    .card .card-text1 {
+        text-align: start;
+    }
+    .card-button {
+        text-align: end;
+    }
+    .card .btn {
+        border: none;
+        background-color: #C1262A;
+        text-decoration: none;
+        color: #F4F4F4;
+    }
+    .card .podrobnee {
+        padding-top: 12px;
+    }
+    .card .btn:hover {
+        border: none;
+        background-color: #C1262A;
+        text-decoration: underline;
+        color: #F4F4F4;
+    }
+</style>
+{% endblock %}
